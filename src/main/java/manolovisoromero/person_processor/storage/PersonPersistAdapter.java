@@ -1,6 +1,5 @@
 package manolovisoromero.person_processor.storage;
 
-import manolovisoromero.person_processor.model.Entity;
 import manolovisoromero.person_processor.model.Person;
 import org.springframework.stereotype.Repository;
 
@@ -24,13 +23,13 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
 
     @Override
     public Person save(Person data) {
-        personDb.put(data.id(), data);
+        personDb.put(data.getId(), data);
         return data;
     }
 
     @Override
     public Collection<Person> saveAndGetAll(Person data) {
-        personDb.put(data.id(), data);
+        personDb.put(data.getId(), data);
         return personDb.values();
     }
 

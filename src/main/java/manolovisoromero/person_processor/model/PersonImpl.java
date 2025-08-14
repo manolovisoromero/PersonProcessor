@@ -5,8 +5,14 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Builder
-public record PersonImpl(Long getId, String getName, LocalDate getDateOfBirth, Long getParent1Id, Long getParent2Id, Long getPartnerId,
-                         Set<Long> getChildren) implements Person {
+@Builder(toBuilder = true)
+@Value
+public class PersonImpl implements Person {
 
+    Long id;
+    String name;
+    LocalDate dateOfBirth;
+    Set<Long> parentIds;
+    Long partnerId;
+    Set<Long> childrenIds;
 }

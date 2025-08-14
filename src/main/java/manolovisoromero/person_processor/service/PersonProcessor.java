@@ -3,16 +3,11 @@ package manolovisoromero.person_processor.service;
 
 import manolovisoromero.person_processor.dto.PersonDto;
 import manolovisoromero.person_processor.model.Person;
+import manolovisoromero.person_processor.model.PersonImpl;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,6 +24,30 @@ public class PersonProcessor implements Processor<PersonDto> {
                 .build();
     }
 
+    public List<Person> getPersonsToBeUpdated(PersonImpl person, List<PersonImpl> allPeople) {
+        List<Person> toBeUpdated = new ArrayList<>();
+        for (PersonImpl child : allPeople) {
+            if (child.getId().equals(person.getId())) continue;
+
+            if (person.getChildrenIds().contains(child.getId())) {
+                Set<Long> parentIds = new LinkedHashSet<>(child.getParentIds());
+
+                parentIds.add(person.getId());
+
+                while (parentIds.size() > 2) {
+                    Iterator<Long> it = parentIds.iterator();
+                    Long removed = it.next();
+                    it.remove();
+                    System.out.println("Removed parent " + removed + " to add " + person.getId() +
+                            " for child " + child.getId());
+                }
+
+                child.toBuilder().parentIds(parentIds);
+                toBeUpdated.add(child);
+            }
+        }
+        return toBeUpdated;
+    }
 
 
     private boolean personMeetsCriteria(Collection<Person> persons){
@@ -37,7 +56,7 @@ public class PersonProcessor implements Processor<PersonDto> {
         for(Person person: persons){
             Long partnerId = person.getPartnerId();
             if(hasPartner(person)) continue;
-            List<Person> children = person.getChildren().stream()
+            List<Person> children = person.getChildrenIds().stream()
                     .map(personMap::get)
                     .filter(Objects::nonNull)
                     .toList();
@@ -58,10 +77,7 @@ public class PersonProcessor implements Processor<PersonDto> {
 
     private boolean childrenOfSamePartner(List<Person> children, Long partnerId) {
         return children.stream()
-                .anyMatch(child ->
-                        (partnerId.equals(child.getParent2Id()) ||
-                                (partnerId.equals(child.getParent1Id()))
-                        )
+                .anyMatch(child -> child.getParentIds().contains(partnerId)
                 );
     }
 

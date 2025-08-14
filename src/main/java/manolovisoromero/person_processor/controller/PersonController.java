@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PersonController {
 
+    public static final String MATCH_THE_CRITERIA = "Currently 1 or more stored people match the criteria.";
+    public static final String NO_ONE_MATCHES_YET = "No one matches yet.";
     private final PersonService personService;
 
 
     @PostMapping("/persons")
-    public ResponseEntity<Boolean> upsertPerson(@RequestBody PersonDto personDto) {
+    public ResponseEntity<String> upsertPerson(@RequestBody PersonDto personDto) {
         var result = personService.processPerson(personDto);
         if(result.satisfied()){
-            return ResponseEntity.status(HttpStatus.valueOf(200)).body(result.satisfied());
+            return ResponseEntity.status(HttpStatus.valueOf(200)).body(MATCH_THE_CRITERIA);
         }
-        return ResponseEntity.status(HttpStatus.valueOf(444)).body(result.satisfied());
+        return ResponseEntity.status(HttpStatus.valueOf(444)).body(NO_ONE_MATCHES_YET);
     }
 }

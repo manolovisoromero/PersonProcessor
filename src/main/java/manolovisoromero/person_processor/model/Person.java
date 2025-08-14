@@ -11,11 +11,9 @@ public interface Person extends Entity{
 
     LocalDate getDateOfBirth();
 
-    Long getParent1Id();
-
-    Long getParent2Id();
+    Set<Long> getParentIds();
 
     Long getPartnerId();
 
-    Set<Long> getChildren();
+    Set<Long> getChildrenIds();
     }
