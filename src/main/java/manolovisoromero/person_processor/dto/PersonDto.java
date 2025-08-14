@@ -20,5 +20,4 @@ public class PersonDto implements Dto {
     private Set<Long> childrenIds;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
-
 }
