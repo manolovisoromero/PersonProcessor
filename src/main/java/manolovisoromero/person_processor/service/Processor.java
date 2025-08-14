@@ -7,5 +7,5 @@ public interface Processor <Entity> {
 
     CheckResult executeCriteriaCheck(Collection<Entity> entities);
 
-    Collection<Entity> getListToUpdate(Entity current, Collection<Entity> all);
+    Collection<Entity> getListToEnforceIntegrity(Entity current, Collection<Entity> all);
 }

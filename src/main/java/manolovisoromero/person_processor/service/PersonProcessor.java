@@ -22,7 +22,7 @@ public class PersonProcessor implements Processor<Person> {
     }
 
 
-    public Collection<Person> getListToUpdate(Person current, Collection<Person> all) {
+    public Collection<Person> getListToEnforceIntegrity(Person current, Collection<Person> all) {
         List<Person> toBeUpdated = new ArrayList<>();
         for (Person child : all) {
             if (child.getId().equals(current.getId())) continue;
