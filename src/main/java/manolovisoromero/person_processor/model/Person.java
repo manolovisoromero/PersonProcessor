@@ -1,19 +1,21 @@
 package manolovisoromero.person_processor.model;
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
+
 import java.time.LocalDate;
 import java.util.Set;
 
-public interface Person extends Entity{
+@EqualsAndHashCode(callSuper = true)
+@Builder(toBuilder = true)
+@Value
+public class Person extends Entity{
 
-    Long getId();
-
-    String getName();
-
-    LocalDate getDateOfBirth();
-
-    Set<Long> getParentIds();
-
-    Long getPartnerId();
-
-    Set<Long> getChildrenIds();
+    Long id;
+    String name;
+    LocalDate dateOfBirth;
+    Set<Long> parentIds;
+    Long partnerId;
+    Set<Long> childrenIds;
     }

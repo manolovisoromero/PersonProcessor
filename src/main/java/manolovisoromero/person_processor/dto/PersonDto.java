@@ -9,19 +9,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL) // Exclude null fields from JSON
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class PersonDto implements Dto {
 
-    private int id;
+    private Long id;
     private String name;
-    private int parent1Id;
-    private int parent2Id;
-    private int partnerId;
-    private Set<Integer> children;
+    private Set<Long> parentIds;
+    private Long partnerId;
+    private Set<Long> childrenIds;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    @JsonCreator
-    public PersonDto() {}
 }
