@@ -1,12 +1,11 @@
 package manolovisoromero.person_processor.service;
 
 
-import manolovisoromero.person_processor.dto.Dto;
-import manolovisoromero.person_processor.model.Person;
-
 import java.util.Collection;
 
-public interface Processor <T extends Dto> {
+public interface Processor <Entity> {
 
-    CheckResult executeCriteriaCheck(Collection<Person> dto);
+    CheckResult executeCriteriaCheck(Collection<Entity> entities);
+
+    Collection<Entity> getListToUpdate(Entity current, Collection<Entity> all);
 }
