@@ -15,5 +15,5 @@ public interface PersistAdapter<T extends Entity>{
 
     Collection<T> saveAndGetAll(T entity);
 
-    Optional<T> getById(Integer id);
+    Optional<T> getById(Long id);
 }

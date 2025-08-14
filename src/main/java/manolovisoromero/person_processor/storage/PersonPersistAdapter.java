@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public class PersonPersistAdapter implements  PersistAdapter<Person>{
 
-    private Map<Integer, Person>  personDb = new HashMap<>();
+    private final Map<Long, Person>  personDb = new HashMap<>();
 
     @Override
     public void connect() {
@@ -34,7 +34,7 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
     }
 
     @Override
-    public Optional<Person> getById(Integer id) {
+    public Optional<Person> getById(Long id) {
         return Optional.of(personDb.get(id));
     }
 

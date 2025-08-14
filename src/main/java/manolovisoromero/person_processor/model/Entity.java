@@ -1,4 +1,5 @@
 package manolovisoromero.person_processor.model;
 
-public interface Entity {
+
+public abstract class Entity {
 }
