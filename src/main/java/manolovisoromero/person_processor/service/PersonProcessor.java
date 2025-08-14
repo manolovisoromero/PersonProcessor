@@ -1,9 +1,7 @@
 package manolovisoromero.person_processor.service;
 
 
-import manolovisoromero.person_processor.dto.PersonDto;
 import manolovisoromero.person_processor.model.Person;
-import manolovisoromero.person_processor.model.PersonImpl;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -12,33 +10,33 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class PersonProcessor implements Processor<PersonDto> {
+public class PersonProcessor implements Processor<Person> {
 
     private PersonProcessor(){    }
 
 
-    @Override
-    public CheckResult executeCriteriaCheck(Collection<Person> persons) {
+    public CheckResult executeCriteriaCheck(Collection<Person> entities) {
         return CheckResultImpl.builder()
-                .satisfied(personMeetsCriteria(persons))
+                .satisfied(personMeetsCriteria(entities))
                 .build();
     }
 
-    public List<Person> getPersonsToBeUpdated(PersonImpl person, List<PersonImpl> allPeople) {
-        List<Person> toBeUpdated = new ArrayList<>();
-        for (PersonImpl child : allPeople) {
-            if (child.getId().equals(person.getId())) continue;
 
-            if (person.getChildrenIds().contains(child.getId())) {
+    public Collection<Person> getListToUpdate(Person current, Collection<Person> all) {
+        List<Person> toBeUpdated = new ArrayList<>();
+        for (Person child : all) {
+            if (child.getId().equals(current.getId())) continue;
+
+            if (current.getChildrenIds().contains(child.getId())) {
                 Set<Long> parentIds = new LinkedHashSet<>(child.getParentIds());
 
-                parentIds.add(person.getId());
+                parentIds.add(current.getId());
 
                 while (parentIds.size() > 2) {
                     Iterator<Long> it = parentIds.iterator();
                     Long removed = it.next();
                     it.remove();
-                    System.out.println("Removed parent " + removed + " to add " + person.getId() +
+                    System.out.println("Removed parent " + removed + " to add " + current.getId() +
                             " for child " + child.getId());
                 }
 
@@ -88,4 +86,6 @@ public class PersonProcessor implements Processor<PersonDto> {
     private boolean hasUnderageChild(List<Person> children){
         return children.stream().anyMatch(child -> child.getDateOfBirth().isBefore(LocalDate.now().minusYears(18)));
     }
+
+
 }
