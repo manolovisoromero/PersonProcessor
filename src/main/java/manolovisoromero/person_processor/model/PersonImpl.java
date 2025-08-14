@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Builder
-public record PersonImpl(int id, String name, LocalDate dateOfBirth, int parent1Id, int parent2Id, int partnerId,
-                         Set<Integer> children) implements Person {
+public record PersonImpl(Long getId, String getName, LocalDate getDateOfBirth, Long getParent1Id, Long getParent2Id, Long getPartnerId,
+                         Set<Long> getChildren) implements Person {
 
 }

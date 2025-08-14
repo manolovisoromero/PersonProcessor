@@ -22,13 +22,13 @@ public class PersonMapper {
 
     public PersonDto toDto(Person person) {
         return PersonDto.builder()
-                .id(person.id())
-                .name(person.name())
-                .dateOfBirth(person.dateOfBirth())
-                .parent1Id(person.parent1Id())
-                .parent2Id(person.parent2Id())
-                .partnerId(person.partnerId())
-                .children(person.children())
+                .id(person.getId())
+                .name(person.getName())
+                .dateOfBirth(person.getDateOfBirth())
+                .parent1Id(person.getParent1Id())
+                .parent2Id(person.getParent2Id())
+                .partnerId(person.getPartnerId())
+                .children(person.getChildren())
                 .build();
 
     }

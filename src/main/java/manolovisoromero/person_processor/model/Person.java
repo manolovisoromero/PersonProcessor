@@ -5,17 +5,17 @@ import java.util.Set;
 
 public interface Person extends Entity{
 
-    int id();
+    Long getId();
 
-    String name();
+    String getName();
 
-    LocalDate dateOfBirth();
+    LocalDate getDateOfBirth();
 
-    int parent1Id();
+    Long getParent1Id();
 
-    int parent2Id();
+    Long getParent2Id();
 
-    int partnerId();
+    Long getPartnerId();
 
-    Set<Integer> children();
+    Set<Long> getChildren();
     }
