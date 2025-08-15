@@ -1,5 +1,6 @@
 package manolovisoromero.person_processor.storage;
 
+import jakarta.validation.Valid;
 import manolovisoromero.person_processor.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
     }
 
     @Override
-    public Person save(Person data) {
+    public Person save(@Valid Person data) {
         var result = personDb.put(data.getId(), data);
         if(result == null){
             LOGGER.atInfo().setMessage("Person {} saved to db").addArgument(data.getId()).log();
