@@ -13,7 +13,11 @@ public interface PersistAdapter<T extends Entity>{
 
     T save(T entity);
 
-    Collection<T> saveAndGetAll(T entity);
+    Collection<T> returnAll(T entity);
 
     Optional<T> getById(Long id);
+
+    void deleteById(Long id);
+
+    void clear();
 }

@@ -23,13 +23,15 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
 
     @Override
     public Person save(Person data) {
-        personDb.put(data.getId(), data);
-        return data;
+        if (personDb.containsKey(data.getId())) {
+            System.out.println("Overwriting existing person with ID: " + data.getId());
+        }
+        return personDb.put(data.getId(), data);
+
     }
 
     @Override
-    public Collection<Person> saveAndGetAll(Person data) {
-        personDb.put(data.getId(), data);
+    public Collection<Person> returnAll(Person data) {
         return personDb.values();
     }
 
@@ -38,5 +40,13 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
         return Optional.of(personDb.get(id));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        personDb.remove(id);
+    }
 
+    @Override
+    public void clear() {
+        personDb.clear();
+    }
 }
