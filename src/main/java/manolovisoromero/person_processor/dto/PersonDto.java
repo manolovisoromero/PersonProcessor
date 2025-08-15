@@ -4,6 +4,7 @@ package manolovisoromero.person_processor.dto;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
+@EqualsAndHashCode
 public class PersonDto implements Dto {
 
     @NotNull
