@@ -51,10 +51,10 @@ class PersonControllerTest {
     @Test
     void shouldReturnBadRequestWhenIdIsMissing() throws Exception {
         String json = """
-        {
-          "name": "Jan"
-        }
-    """;
+                    {
+                      "name": "Jan"
+                    }
+                """;
 
         mockMvc.perform(post("/api/v1/persons")
                         .contentType(MediaType.APPLICATION_JSON)

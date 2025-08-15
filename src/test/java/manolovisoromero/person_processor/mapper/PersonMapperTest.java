@@ -28,7 +28,7 @@ class PersonMapperTest {
 
 
     @Test
-    void shouldMapDtoToEntityCorrectly() {
+    void shouldMapDtoMapCorrectly() {
         PersonDto dto = PersonDto.builder()
                 .id(1L)
                 .name("Jan")
@@ -38,7 +38,7 @@ class PersonMapperTest {
                 .childrenIds(Set.of(5L, 6L))
                 .build();
 
-        Person entity = mapper.toEntity(dto);
+        Person entity = mapper.map(dto);
 
         assertEquals(dto.getId(), entity.getId());
         assertEquals(dto.getName(), entity.getName());
@@ -49,7 +49,7 @@ class PersonMapperTest {
     }
 
     @Test
-    void shouldMapEntityToDtoCorrectly() {
+    void shouldMapEntityMapCorrectly() {
         Person person = Person.builder()
                 .id(1L)
                 .name("Jan")
@@ -59,7 +59,7 @@ class PersonMapperTest {
                 .childrenIds(Set.of(9L, 10L))
                 .build();
 
-        PersonDto dto = mapper.toDto(person);
+        PersonDto dto = mapper.map(person);
 
         assertEquals(person.getId(), dto.getId());
         assertEquals(person.getName(), dto.getName());
@@ -80,8 +80,8 @@ class PersonMapperTest {
                 .childrenIds(Set.of(5L))
                 .build();
 
-        Person entity = mapper.toEntity(originalDto);
-        PersonDto mappedBackDto = mapper.toDto(entity);
+        Person entity = mapper.map(originalDto);
+        PersonDto mappedBackDto = mapper.map(entity);
 
         assertEquals(originalDto, mappedBackDto);
     }

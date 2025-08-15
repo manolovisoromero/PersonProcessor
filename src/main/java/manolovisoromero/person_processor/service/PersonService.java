@@ -19,7 +19,7 @@ public class PersonService {
     public CheckResult processPerson(PersonDto dto){
         persistAdapter.connect();
         //Preferably use a real DB and batching/connection pooling in a proper solution
-        final Person person = mapper.toEntity(dto);
+        final Person person = mapper.map(dto);
         persistAdapter.save(person);
         final var persons = persistAdapter.returnAll();
         final var personsToBeUpdated = processor.getListToEnforceIntegrity(person, persons);

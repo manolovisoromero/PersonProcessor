@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -19,9 +20,11 @@ public class PersonDto implements Dto {
     @NotNull
     private Long id;
     private String name;
-    private Set<Long> parentIds;
-    private Long partnerId;
-    private Set<Long> childrenIds;
+    @Builder.Default
+    Set<Long> parentIds = new HashSet<>();
+    Long partnerId;
+    @Builder.Default
+    Set<Long> childrenIds = new HashSet<>();
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 }

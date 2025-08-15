@@ -54,9 +54,7 @@ public class PersonProcessor implements Processor<Person> {
                     .childrenIds(childrenIds)
                     .build());
             LOGGER.atInfo().setMessage("Added child {} to person {}").addArgument(current.getId()).addArgument(parent.getId()).log();
-
         }
-
         return toBeUpdated;
     }
 
