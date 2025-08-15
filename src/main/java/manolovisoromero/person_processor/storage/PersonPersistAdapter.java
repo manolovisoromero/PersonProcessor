@@ -39,14 +39,14 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
     }
 
     @Override
-    public Collection<Person> returnAll(Person data) {
+    public Collection<Person> returnAll() {
         LOGGER.atInfo().setMessage("Persons: [{} queried").addArgument(personDb.values().stream().map(Person::getId).collect(toList())).log();
         return personDb.values();
     }
 
     @Override
     public Optional<Person> getById(Long id) {
-        return Optional.of(personDb.get(id));
+        return Optional.ofNullable(personDb.get(id));
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface PersistAdapter<T extends Entity>{
 
     T save(T entity);
 
-    Collection<T> returnAll(T entity);
+    Collection<T> returnAll();
 
     Optional<T> getById(Long id);
 
