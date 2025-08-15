@@ -20,7 +20,8 @@ public class PersonService {
         persistAdapter.connect();
         //Preferably use a real DB and batching/connection pooling in a proper solution
         final Person person = mapper.toEntity(dto);
-        final var persons = persistAdapter.saveAndGetAll(person);
+        persistAdapter.save(person);
+        final var persons = persistAdapter.returnAll(person);
         final var personsToBeUpdated = processor.getListToEnforceIntegrity(person, persons);
         for(Person personToBeUpdated: personsToBeUpdated){
             persistAdapter.save(personToBeUpdated);
