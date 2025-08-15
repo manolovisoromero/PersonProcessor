@@ -2,6 +2,7 @@ package manolovisoromero.person_processor.dto;
 
 
 import com.fasterxml.jackson.annotation.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Builder
 public class PersonDto implements Dto {
 
+    @NotNull
     private Long id;
     private String name;
     private Set<Long> parentIds;
