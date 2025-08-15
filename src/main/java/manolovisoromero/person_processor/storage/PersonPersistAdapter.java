@@ -29,7 +29,7 @@ public class PersonPersistAdapter implements  PersistAdapter<Person>{
 
     @Override
     public Person save(@Valid Person data) {
-        var result = personDb.put(data.getId(), data);
+        final var result = personDb.put(data.getId(), data);
         if(result == null){
             LOGGER.atInfo().setMessage("Person {} saved to db").addArgument(data.getId()).log();
         }else{

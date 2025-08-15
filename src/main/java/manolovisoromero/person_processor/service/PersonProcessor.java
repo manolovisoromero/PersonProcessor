@@ -24,9 +24,9 @@ public class PersonProcessor implements Processor<Person> {
 
 
     public Collection<Person> getListToEnforceIntegrity(Person current, Collection<Person> all) {
-        List<Person> toBeUpdated = new ArrayList<>();
-        Set<Person> parents = all.stream().filter(person -> person.getChildrenIds().contains(current.getId()) | current.getParentIds().contains(person.getId())).collect(Collectors.toSet());
-        Set<Person> children = all.stream().filter(person -> person.getParentIds().contains(current.getId()) | current.getChildrenIds().contains(person.getId())).collect(Collectors.toSet());
+        final List<Person> toBeUpdated = new ArrayList<>();
+        final Set<Person> parents = all.stream().filter(person -> person.getChildrenIds().contains(current.getId()) | current.getParentIds().contains(person.getId())).collect(Collectors.toSet());
+        final Set<Person> children = all.stream().filter(person -> person.getParentIds().contains(current.getId()) | current.getChildrenIds().contains(person.getId())).collect(Collectors.toSet());
 
         for (Person child : children) {
             if (child.getParentIds().contains(current.getId())) continue;
@@ -34,7 +34,7 @@ public class PersonProcessor implements Processor<Person> {
                 LOGGER.atInfo().setMessage("Person {} already has two parents, can't remove any parent.").addArgument(child.getId()).log();
                 continue;
             }
-            Set<Long> parentIds = new LinkedHashSet<>(child.getParentIds());
+            final Set<Long> parentIds = new LinkedHashSet<>(child.getParentIds());
 
             parentIds.add(current.getId());
 
@@ -46,7 +46,7 @@ public class PersonProcessor implements Processor<Person> {
 
         }
         for (Person parent: parents){
-            Set<Long> childrenIds = new LinkedHashSet<>(parent.getChildrenIds());
+            final Set<Long> childrenIds = new LinkedHashSet<>(parent.getChildrenIds());
             childrenIds.add(current.getId());
 
             toBeUpdated.add(parent
@@ -61,12 +61,12 @@ public class PersonProcessor implements Processor<Person> {
 
 
     private boolean criteriaAreMet(Collection<Person> persons) {
-        Map<Long, Person> personMap = persons.stream().collect(Collectors.toMap(Person::getId, Function.identity()));
+        final Map<Long, Person> personMap = persons.stream().collect(Collectors.toMap(Person::getId, Function.identity()));
 
         for (Person person : persons) {
-            Long partnerId = person.getPartnerId();
+            final Long partnerId = person.getPartnerId();
             if (!hasPartner(person)) continue;
-            List<Person> children = person.getChildrenIds().stream()
+            final List<Person> children = person.getChildrenIds().stream()
                     .map(personMap::get)
                     .filter(Objects::nonNull)
                     .toList();

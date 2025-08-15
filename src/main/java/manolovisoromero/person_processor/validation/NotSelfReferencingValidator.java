@@ -10,7 +10,7 @@ public class NotSelfReferencingValidator implements ConstraintValidator<NotSelfR
     public boolean isValid(Person person, ConstraintValidatorContext context) {
         if (person == null) return true;
 
-        Long id = person.getId();
+        final Long id = person.getId();
         return !(person.getParentIds().contains(id) || person.getChildrenIds().contains(id));
     }
 }

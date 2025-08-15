@@ -23,7 +23,7 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<String> upsertPerson(@Valid @RequestBody PersonDto personDto) {
         log.info("Received upsert request for person with id: {}", personDto.getId());
-        var result = personService.processPerson(personDto);
+        final var result = personService.processPerson(personDto);
         if(result.satisfied()){
             return ResponseEntity.ok().body(MATCH_THE_CRITERIA);
         }
