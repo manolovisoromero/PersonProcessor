@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,7 +16,9 @@ public class Person extends Entity{
     Long id;
     String name;
     LocalDate dateOfBirth;
-    Set<Long> parentIds;
+    @Builder.Default
+    Set<Long> parentIds = new HashSet<>();
     Long partnerId;
-    Set<Long> childrenIds;
+    @Builder.Default
+    Set<Long> childrenIds = new HashSet<>();
     }
