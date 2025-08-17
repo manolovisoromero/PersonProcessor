@@ -2,7 +2,6 @@ package manolovisoromero.person_processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import manolovisoromero.person_processor.dto.PersonDto;
-import manolovisoromero.person_processor.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -30,13 +29,6 @@ public class IntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @Autowired
-//    private PersistAdapter<Person> persistAdapter;
-
-    @BeforeEach
-    void resetStore() {
-//        persistAdapter.connect();
-    }
 
     @Test
     void shouldProcessPersonViaControllerAndReturnValidResult() throws Exception {

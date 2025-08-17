@@ -2,7 +2,6 @@ package manolovisoromero.person_processor.service;
 
 import manolovisoromero.person_processor.dto.PersonDto;
 import manolovisoromero.person_processor.storage.PersonRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
