@@ -4,9 +4,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Data;
-import lombok.With;
+import lombok.*;
 import manolovisoromero.person_processor.validation.NotSelfReferencing;
 
 import java.time.LocalDate;
@@ -17,11 +15,10 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @Data
 @With
-@Entity
-@Table(name = "person")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Person {
 
-    @Id
     Long id;
 
     String name;
@@ -29,12 +26,10 @@ public class Person {
     LocalDate dateOfBirth;
 
     @Builder.Default
-    @ElementCollection
     Set<Long> parentIds = new HashSet<>();
 
     Long partnerId;
 
     @Builder.Default
-    @ElementCollection
     Set<Long> childrenIds = new HashSet<>();
 }
