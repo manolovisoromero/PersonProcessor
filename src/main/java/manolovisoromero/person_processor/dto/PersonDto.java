@@ -15,7 +15,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 @EqualsAndHashCode
-public class PersonDto implements Dto {
+public class PersonDto {
 
     @NotNull
     private Long id;
