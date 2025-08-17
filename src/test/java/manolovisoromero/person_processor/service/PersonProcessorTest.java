@@ -49,7 +49,7 @@ class PersonProcessorTest {
 
         CheckResult result = processor.executeCriteriaCheck(persons);
 
-        assertTrue(result.satisfied());
+        assertTrue(result.matchingPerson().isPresent());
     }
 
     @Test
@@ -82,7 +82,7 @@ class PersonProcessorTest {
 
         CheckResult result = processor.executeCriteriaCheck(persons);
 
-        assertFalse(result.satisfied());
+        assertTrue(result.matchingPerson().isEmpty());
     }
 
     @Test
