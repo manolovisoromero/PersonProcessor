@@ -9,7 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/persons")
@@ -32,9 +37,20 @@ public class PersonController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deletePerson(@RequestBody DeleteRequestDto dto){
+    public ResponseEntity<String> deletePerson(@Valid @RequestBody DeleteRequestDto dto){
         log.info("Received delete request for persons with id's: {}", dto.getIds());
         //Not implemented yet
         return null;
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.badRequest().body(errors);
     }
 }
