@@ -59,7 +59,7 @@ class PersonMapperTest {
                 .childrenIds(Set.of(9L, 10L))
                 .build();
 
-        PersonDto dto = mapper.map(person);
+        PersonDto dto = mapper.mapToDto(person);
 
         assertEquals(person.getId(), dto.getId());
         assertEquals(person.getName(), dto.getName());
@@ -81,7 +81,7 @@ class PersonMapperTest {
                 .build();
 
         Person entity = mapper.map(originalDto);
-        PersonDto mappedBackDto = mapper.map(entity);
+        PersonDto mappedBackDto = mapper.mapToDto(entity);
 
         assertEquals(originalDto, mappedBackDto);
     }
