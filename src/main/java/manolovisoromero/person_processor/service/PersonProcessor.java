@@ -12,14 +12,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class PersonProcessor implements Processor<Person> {
+public class PersonProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonProcessor.class);
+    public static final String CRITERIA_MET_MESSAGE = "Currently 1 or more stored people match the criteria.";
+    public static final String CRITERIA_NOT_MET_MESSAGE = "No one matches yet.";
 
     public CheckResult executeCriteriaCheck(Collection<Person> entities) {
-        return CheckResultImpl.builder()
-                .satisfied(criteriaAreMet(entities))
-                .build();
+        final var result = findMatchingPerson(entities);
+        if (result == null) {
+            return FailureResult.builder()
+                    .message(CRITERIA_NOT_MET_MESSAGE)
+                    .build();
+        }
+        return SuccessResult.builder()
+                .message(CRITERIA_MET_MESSAGE)
+                .matchingPerson(Optional.of(result)).build();
     }
 
 
@@ -45,7 +53,7 @@ public class PersonProcessor implements Processor<Person> {
             LOGGER.atInfo().setMessage("Added parent {} to person {}").addArgument(current.getId()).addArgument(child.getId()).log();
 
         }
-        for (Person parent: parents){
+        for (Person parent : parents) {
             final Set<Long> childrenIds = new LinkedHashSet<>(parent.getChildrenIds());
             childrenIds.add(current.getId());
 
@@ -58,9 +66,7 @@ public class PersonProcessor implements Processor<Person> {
         return toBeUpdated;
     }
 
-
-
-    private boolean criteriaAreMet(Collection<Person> persons) {
+    private Person findMatchingPerson(Collection<Person> persons) {
         final Map<Long, Person> personMap = persons.stream().collect(Collectors.toMap(Person::getId, Function.identity()));
 
         for (Person person : persons) {
@@ -72,9 +78,9 @@ public class PersonProcessor implements Processor<Person> {
                     .toList();
             if (!hasUnderageChild(children)) continue;
             if (!exactlyThreeChildrenOfSameParents(children, partnerId)) continue;
-            return true;
+            return person;
         }
-        return false;
+        return null;
     }
 
     private boolean hasPartner(Person person) {
