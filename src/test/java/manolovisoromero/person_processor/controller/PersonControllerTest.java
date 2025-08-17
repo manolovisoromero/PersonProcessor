@@ -1,8 +1,9 @@
 package manolovisoromero.person_processor.controller;
 
 import manolovisoromero.person_processor.dto.PersonDto;
+import manolovisoromero.person_processor.model.Person;
 import manolovisoromero.person_processor.service.CheckResult;
-import manolovisoromero.person_processor.service.CheckResultImpl;
+import manolovisoromero.person_processor.service.SuccessResult;
 import manolovisoromero.person_processor.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,7 +42,7 @@ class PersonControllerTest {
                     }
                 """;
 
-        CheckResult result = CheckResultImpl.builder().satisfied(true).build();
+        CheckResult result = SuccessResult.builder().matchingPerson(Optional.of(Person.builder().id(1L).build())).build();
         when(personService.processPerson(any(PersonDto.class))).thenReturn(result);
 
         mockMvc.perform(post("/api/v1/persons")

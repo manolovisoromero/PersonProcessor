@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import manolovisoromero.person_processor.dto.DeleteRequestDto;
 import manolovisoromero.person_processor.dto.PersonDto;
+import manolovisoromero.person_processor.service.CheckResult;
 import manolovisoromero.person_processor.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +28,13 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<String> upsertPerson(@Valid @RequestBody PersonDto dto) {
         log.info("Received upsert request for person with id: {}", dto.getId());
-        final var result = personService.processPerson(dto);
-        if (result.getMatchingPerson() == null) {
+        final CheckResult result = personService.processPerson(dto);
+        if (result.matchingPerson().isEmpty()) {
             log.info("Criteria not met after processing person with id {}", dto.getId());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.message());
         }
-        log.info("Criteria met after processing person with id {}", dto.getId());
-        return ResponseEntity.ok().body(result.getMessage());
+        log.info("Criteria met after processing person with id {}", result.matchingPerson().get().getId());
+        return ResponseEntity.ok().body(result.message());
     }
 
     @DeleteMapping
