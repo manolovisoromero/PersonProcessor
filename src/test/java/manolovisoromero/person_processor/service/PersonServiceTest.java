@@ -1,8 +1,7 @@
 package manolovisoromero.person_processor.service;
 
 import manolovisoromero.person_processor.dto.PersonDto;
-import manolovisoromero.person_processor.model.Person;
-import manolovisoromero.person_processor.storage.PersistAdapter;
+import manolovisoromero.person_processor.storage.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,13 +21,8 @@ class PersonServiceTest {
     private PersonService personService;
 
     @Autowired
-    private PersistAdapter<Person> persistAdapter;
+    private PersonRepository personRepository;
 
-    @BeforeEach
-    void resetStore() {
-        persistAdapter.clear();
-        persistAdapter.connect();
-    }
 
     @Test
     void shouldProcessPersonAndUpdateStoreAndCriteriaNotMet() {
@@ -44,9 +37,9 @@ class PersonServiceTest {
 
         CheckResult result = personService.processPerson(dto);
 
-        assertFalse(result.satisfied());
+        assertFalse(result.matchingPerson().isPresent());
 
-        var stored = persistAdapter.returnAll();
+        var stored = personRepository.findAll();
         assertEquals(1, stored.size());
         assertEquals("Jan", stored.stream().toList().getFirst().getName());
     }
@@ -54,7 +47,7 @@ class PersonServiceTest {
 
     @Test
     void shouldProcessPersonAndUpdateStoreAndMeetCriteria() {
-        PersonDto parent1 = PersonDto.builder()
+        final PersonDto parent1 = PersonDto.builder()
                 .id(5L)
                 .name("Jan")
                 .partnerId(4L)
@@ -65,7 +58,7 @@ class PersonServiceTest {
 
         personService.processPerson(parent1);
 
-        PersonDto partner = PersonDto.builder()
+        final PersonDto partner = PersonDto.builder()
                 .id(4L)
                 .name("Willem")
                 .partnerId(5L)
@@ -75,7 +68,7 @@ class PersonServiceTest {
 
         personService.processPerson(partner);
 
-        PersonDto child1 = PersonDto.builder()
+        final PersonDto child1 = PersonDto.builder()
                 .id(1L)
                 .name("Arjan")
                 .dateOfBirth(LocalDate.of(2000, 2, 2))
@@ -84,14 +77,14 @@ class PersonServiceTest {
                 .childrenIds(Set.of(2L, 3L))
                 .build();
 
-        PersonDto child2 = PersonDto.builder()
+        final PersonDto child2 = PersonDto.builder()
                 .id(2L)
                 .name("Eric")
                 .dateOfBirth(LocalDate.of(2020, 5, 5))
                 .parentIds(Set.of(5L, 4L))
                 .build();
 
-        PersonDto child3 = PersonDto.builder()
+        final PersonDto child3 = PersonDto.builder()
                 .id(3L)
                 .name("Jeroen")
                 .dateOfBirth(LocalDate.of(2022, 6, 6))
@@ -101,11 +94,11 @@ class PersonServiceTest {
         personService.processPerson(child2);
         personService.processPerson(child3);
 
-        CheckResult result = personService.processPerson(child1);
+        final CheckResult result = personService.processPerson(child1);
 
-        assertTrue(result.satisfied());
+        assertTrue(result.matchingPerson().isPresent());
 
-        Collection<Person> stored = persistAdapter.returnAll();
+        final var stored = personRepository.findAll();
         assertEquals(5, stored.size());
     }
 }
