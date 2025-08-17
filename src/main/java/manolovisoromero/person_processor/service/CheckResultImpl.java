@@ -1,8 +1,17 @@
 package manolovisoromero.person_processor.service;
 
 
+import jakarta.annotation.Nullable;
 import lombok.Builder;
+import lombok.Data;
+import manolovisoromero.person_processor.model.Person;
 
 @Builder
-public record CheckResultImpl(boolean satisfied) implements CheckResult {
+@Data
+public class CheckResultImpl implements CheckResult {
+
+    @Nullable
+    Person matchingPerson;
+
+    String message;
 }
